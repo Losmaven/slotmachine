@@ -87,9 +87,10 @@ const spin = () => {
  }
     // console.log(symbols);
    // to represent cols in slot machine
-    const reels = [ [],[],[]];
+    const reels = [];
     // this for loop is for each reels/colms
            for(let i = 0; i < COLMS; i++){  
+            reels.push([]);
          const reelSymbols = [...symbols]; //copying symbols to another array
              for(j =0;j < ROWS; j++){
               //for random selection of elems
@@ -105,12 +106,47 @@ const spin = () => {
            return reels;
 
 };
-       const reels = spin();
-       console.log(reels);
+// transpose of array from colms to rows
 
-       
+ const transpose  = (reels) => {
+    const rows = [];  // new array
+    for (let i = 0; i < ROWS; i++) { // no pf rows looping to collect elems from colums
+        rows.push([]);                 // push new row coz for every single row we need array
+        for (let j =0; j < COLMS; j++){   // for every row looping with colums
+            rows[i].push(reels[j][i]) // colms j and row i
+        }
+    }
+    return rows
+ }
+ // adding pipe seperator A|B|C|
+
+const printRows = (rows) => {
+    for (const row of rows){
+        let rowString = "";
+        for(const [i,symbol] of row.entries()){
+            rowString += symbol  // catination
+            if (i != row.length - 1){
+                rowString += " | "
+            }
+        }
+        console.log(rowString);
+    }
+};
+
+  
+
+
+
+
+
+
+
+       const reels = spin();
     let balance = deposit();
   const numofLines = getNumbofLines();
 const bet = getBet(balance,numofLines);
+const rows = transpose(reels);
+ console.log(reels);
+ console.log(rows);
 
-
+  printRows(rows);
